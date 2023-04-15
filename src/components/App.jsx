@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { ContactsForm } from './ContactsWidget/ContactsForm';
-import { ContactsList } from './ContactsList';
 import { Filter } from './ContactsWidget/Filter';
 import { ContactItem } from './ContactsWidget/ContactItem';
-import { nanoid } from 'nanoid';
+
+import css from './App.module.css';
 
 export class App extends Component {
   state = {
@@ -14,13 +14,10 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
-  handlerSubmit = e => {
-    const { name, number, contacts } = this.state;
-    e.preventDefault();
+  handlerSubmit = (name, number, id) => {
+    const { contacts } = this.state;
 
     if (contacts.find(contact => contact.name === name)) {
       alert(`${name} is alrady in contacts.`);
@@ -28,7 +25,7 @@ export class App extends Component {
     }
 
     const contact = {
-      id: nanoid(),
+      id,
       name,
       number,
     };
@@ -36,15 +33,10 @@ export class App extends Component {
     this.setState(prevState => ({
       contacts: [contact, ...prevState.contacts],
     }));
-
-    this.reset();
   };
 
-  handlerInput = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  onFilterChange = value => {
+    this.setState({ filter: value });
   };
 
   handleDelete = e => {
@@ -55,22 +47,16 @@ export class App extends Component {
 
     this.setState({ contacts: contactsAfterDelete });
   };
+
   render() {
-    const { contacts, name, number } = this.state;
+    const { contacts } = this.state;
 
     return (
-      <>
-        <ContactsForm
-          name={name}
-          number={number}
-          handlerSubmit={this.handlerSubmit}
-          handlerInput={this.handlerInput}
-        />
-        filter
-        <Filter onChange={this.handlerInput} />
-        <ul>
-          {' '}
-          {contacts.map(({ id, name, number, filter }) => (
+      <div className={css.global__wrapper}>
+        <ContactsForm handlerSubmit={this.handlerSubmit} />
+        <Filter handlerFilter={this.onFilterChange} />
+        <ul className={css.itemList}>
+          {contacts.map(({ id, name, number }) => (
             <ContactItem
               key={id}
               id={id}
@@ -81,7 +67,7 @@ export class App extends Component {
             />
           ))}
         </ul>
-      </>
+      </div>
     );
   }
 }
