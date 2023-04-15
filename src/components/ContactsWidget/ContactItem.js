@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 
 export class ContactItem extends Component {
   render() {
-    return (
+    const { name, filter, number } = this.props;
+
+    return name.toLowerCase().includes(filter.toLowerCase()) ? (
       <li>
-        <p>{this.props.name}</p>
-        <p>{this.props.number}</p>
+        <p>{name}</p>
+        <p>{number}</p>
       </li>
-    );
+    ) : null;
   }
 }
