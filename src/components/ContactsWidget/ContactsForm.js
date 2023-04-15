@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 export class ContactsForm extends Component {
-    
   render() {
     const { name, number, handlerSubmit, handlerInput } = this.props;
     return (
