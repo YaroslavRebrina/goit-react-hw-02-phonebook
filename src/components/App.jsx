@@ -3,9 +3,12 @@ import { ContactsForm } from './ContactsWidget/ContactsForm';
 import { Filter } from './ContactsWidget/Filter';
 import { ContactItem } from './ContactsWidget/ContactItem';
 
+
 import css from './App.module.css';
 
 export class App extends Component {
+
+
   state = {
     contacts: [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
